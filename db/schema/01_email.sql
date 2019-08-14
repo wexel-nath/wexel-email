@@ -5,13 +5,12 @@ CREATE TABLE service (
 );
 
 CREATE TABLE email (
-    email_id          SERIAL  PRIMARY KEY NOT NULL,
-    email_external_id TEXT,
-    email_to          TEXT    NOT NULL,
-    email_from        TEXT    NOT NULL,
-    email_subject     TEXT    NOT NULL,
-    email_content     TEXT    NOT NULL,
-    service_id        INTEGER NOT NULL REFERENCES service(service_id)
+    email_id      SERIAL  PRIMARY KEY NOT NULL,
+    email_to      TEXT    NOT NULL,
+    email_from    TEXT    NOT NULL,
+    email_subject TEXT    NOT NULL,
+    email_content JSONB   NOT NULL,
+    service_id    INTEGER NOT NULL REFERENCES service(service_id)
 );
 
 CREATE TABLE event_type (
