@@ -4,6 +4,11 @@ CREATE TABLE service (
     service_name TEXT   NOT NULL
 );
 
+INSERT INTO service
+    (service_name)
+VALUES
+    ('mateo-meat-night');
+
 CREATE TABLE email (
     email_id      SERIAL  PRIMARY KEY NOT NULL,
     email_to      TEXT    NOT NULL,
@@ -22,15 +27,16 @@ CREATE TABLE event_type (
 INSERT INTO event_type
     (event_type_id, event_type_name, event_type_description)
 VALUES
-    (10, 'rendered',     'The email was rendered'),
-    (20, 'not_accepted', 'The email was not accepted by the service provider'),
-    (30, 'accepted',     'The email was accepted by the service provider'),
-    (40, 'temporary',    'Delivery of this email temporarily failed'),
-    (50, 'delivered',    'The email was delivered'),
-    (60, 'opened',       'The email was opened by the recipient'),
-    (70, 'clicked',      'A link was clicked by the recipient'),
-    (80, 'permanent',    'Delivery of this email permanently failed'),
-    (90, 'unsubscribed', 'The recipient unsubscribed from the email');
+    (5,  'requested',     'The email request was received'),
+    (10, 'render_failed', 'Rendering the email failed'),
+    (20, 'not_accepted',  'The email was not accepted by the service provider'),
+    (30, 'accepted',      'The email was accepted by the service provider'),
+    (40, 'temporary',     'Delivery of this email temporarily failed'),
+    (50, 'delivered',     'The email was delivered'),
+    (60, 'opened',        'The email was opened by the recipient'),
+    (70, 'clicked',       'A link was clicked by the recipient'),
+    (80, 'permanent',     'Delivery of this email permanently failed'),
+    (90, 'unsubscribed',  'The recipient unsubscribed from the email');
 
 CREATE TABLE event (
     event_id      SERIAL    PRIMARY KEY NOT NULL,

@@ -43,12 +43,19 @@ func insert(
 	service string,
 ) (map[string]interface{}, error) {
 	query := `
-		INSERT INTO users (
+		INSERT INTO email (
 			` + strings.Join(insertColumns, ", ") + `
 		)
-		VALUES (
-			$1, $2, $3, $4, $5
-		)
+		SELECT
+			$1,
+			$2,
+			$3,
+			$4,
+			` + columnServiceID + `
+		FROM
+			service
+		WHERE
+			` + columnServiceName + ` = $5
 		RETURNING
 			` + strings.Join(selectColumns, ", ")
 

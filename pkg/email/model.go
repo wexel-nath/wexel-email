@@ -1,15 +1,23 @@
 package email
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Email represents a single record of the email table
 type Email struct {
-	ID      int64  `json:"email_id"`
-	To      string `json:"email_to"`
-	From    string `json:"email_from"`
-	Subject string `json:"email_subject"`
-	Content []byte `json:"email_content"`
-	Service string `json:"service_name"`
+	ID      int64   `json:"email_id"`
+	To      string  `json:"email_to"`
+	From    string  `json:"email_from"`
+	Subject string  `json:"email_subject"`
+	Content Content `json:"email_content"`
+	Service string  `json:"service_name"`
+}
+
+type Content struct {
+	Product Product `json:"product"`
+	Body    Body    `json:"body"`
 }
 
 func newEmail(row map[string]interface{}) (Email, error) {
@@ -28,8 +36,13 @@ func newEmail(row map[string]interface{}) (Email, error) {
 	if email.Subject, ok = row[columnEmailSubject].(string); !ok {
 		return email, fmt.Errorf("row[%v] does not contain field[%s] type[string]", row, columnEmailSubject)
 	}
-	if email.Content, ok = row[columnEmailContent].([]byte); !ok {
+	if content, ok := row[columnEmailContent].([]byte); !ok {
 		return email, fmt.Errorf("row[%v] does not contain field[%s] type[[]byte]", row, columnEmailContent)
+	} else {
+		err := json.Unmarshal(content, &email.Content)
+		if err != nil {
+			return email, err
+		}
 	}
 	if email.Service, ok = row[columnServiceName].(string); !ok {
 		return email, fmt.Errorf("row[%v] does not contain field[%s] type[string]", row, columnServiceName)
